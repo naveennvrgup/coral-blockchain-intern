@@ -9,13 +9,12 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
-	// _ "github.com/jinzhu/gorm/dialects/sqlite"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 type userData struct {
 	gorm.Model
-	UserName string `json:"username" gorm:"varchar(25);not null"`
+	UserName string `json:"userName" gorm:"varchar(25);not null"`
 	EmailId string	`json:"emailId" gorm:"varchar(50);not null"`
 	PhoneNo string `json:"phoneNo" gorm:"varchar(10);not null"`
 	Password string `json:"password" gorm:"varchar(50);not null"`
@@ -48,42 +47,48 @@ func findUser(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(users)
 }
 
-// func newUser(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Println("New User Endpoint Hit")
+func addUser(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("New User Endpoint Hit")
 
-// 	db, err := gorm.Open("mysql", uri)
-// 	if err != nil {
-// 		panic("failed to connect database")
-// 	}
-// 	defer db.Close()
+	db, err := gorm.Open("mysql", uri)
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
 
-// 	vars := mux.Vars(r)
-// 	name := vars["name"]
-// 	email := vars["email"]
+	// accept json data
+    var body map[string]interface{}
+	err = json.NewDecoder(r.Body).Decode(&body)
+    if err != nil {
+        panic(err)
+	}
 
-// 	fmt.Println(name)
-// 	fmt.Println(email)
+	db.Create(&userData{
+		UserName: body["userName"].(string), 
+		EmailId: body["emailId"].(string),
+		Password: body["password"].(string),
+		PhoneNo: body["phoneNo"].(string),
+		Datetime: time.Now(),
+	})
+	fmt.Fprintf(w, "User " + body["emailId"].(string) + " has be created successfully")
+}
 
-// 	db.Create(&User{Name: name, Email: email})
-// 	fmt.Fprintf(w, "New User Successfully Created")
-// }
+func deleteUser(w http.ResponseWriter, r *http.Request) {
+	db, err := gorm.Open("mysql", uri)
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
 
-// func deleteUser(w http.ResponseWriter, r *http.Request) {
-// 	db, err := gorm.Open("mysql", uri)
-// 	if err != nil {
-// 		panic("failed to connect database")
-// 	}
-// 	defer db.Close()
+	vars := mux.Vars(r)
+	email := vars["email"]
 
-// 	vars := mux.Vars(r)
-// 	name := vars["name"]
+	var user userData
+	db.Where("email_id = ?", email).Find(&user)
+	db.Delete(&user)
 
-// 	var user User
-// 	db.Where("name = ?", name).Find(&user)
-// 	db.Delete(&user)
-
-// 	fmt.Fprintf(w, "Successfully Deleted User")
-// }
+	fmt.Fprintf(w, "Successfully Deleted User")
+}
 
 // func updateUser(w http.ResponseWriter, r *http.Request) {
 // 	db, err := gorm.Open("mysql", uri)
@@ -109,9 +114,9 @@ func handleRequests() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 
 	// attach routes to router
-	myRouter.HandleFunc("/findUser", findUser).Methods("POST")
-	// myRouter.HandleFunc("/user/{name}", deleteUser).Methods("DELETE")
-	// myRouter.HandleFunc("/user/{name}/{email}", newUser).Methods("POST")
+	myRouter.HandleFunc("/findUser/", findUser).Methods("POST")
+	myRouter.HandleFunc("/deleteUser/{email}/", deleteUser).Methods("DELETE")
+	myRouter.HandleFunc("/addUser/", addUser).Methods("POST")
 	
 	// serve static files
 	myRouter.PathPrefix("/").Handler(http.FileServer(http.Dir("../react-front/build/")))
