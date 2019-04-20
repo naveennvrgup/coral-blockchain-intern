@@ -10,10 +10,20 @@ router.get('/', (req, res) => {
 })
 
 router.post('/addUser', (req, res) => {
-    console.log(req.body);
-    userData.create(req.body).then((obj) => {
-        res.send(obj)
+    userData.update(req.body, {
+        where: {
+            emailId: req.body.emailId
+        }
+    }).then(noUpdated => {
+        if (noUpdated > 0) {
+            res.send({ msg: `updated the user ${req.body.email}` })
+            return
+        }
+        userData.create(req.body).then((obj) => {
+            res.send({ msg: `created the user ${req.body.email}` })
+        })
     }).catch(e => console.error(e))
+
 })
 
 router.post('/findUser', (req, res) => {
@@ -32,16 +42,16 @@ router.post('/findUser', (req, res) => {
 
 })
 
-router.delete('/deleteUser/:email/', (req,res)=>{
+router.delete('/deleteUser/:email/', (req, res) => {
     // res.send('hi')
 
     userData.destroy({
         where: {
             emailId: req.params.email
         }
-    }).then(noDeleted=>{
-        res.send({noDeleted})
-    }).catch(err=>console.error(err))
+    }).then(noDeleted => {
+        res.send({ noDeleted })
+    }).catch(err => console.error(err))
 })
 
 module.exports = router
