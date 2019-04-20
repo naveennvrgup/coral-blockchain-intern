@@ -9,9 +9,8 @@ class AddUser extends Component {
     render() {
         return (
             <div>
-                <h1 className="text-center my-5">Coral Blockchain | Internship Challenge</h1>
-                <div className="success text-center my-3">{this.state.success}</div>
-                <div className="container">
+                <div className="success text-center mb-3">{this.state.success}</div>
+                <div className="">
                     <form>
                         <div className="form-group">
                             <label>Username:</label>
@@ -32,7 +31,7 @@ class AddUser extends Component {
                         <div className="text-center">
                             <button 
                             onClick={this._addUser}
-                            className="btn btn-primary submit-user-btn">
+                            className="btn btn-success submit-user-btn">
                                 Submit
                             </button>
                         </div>
