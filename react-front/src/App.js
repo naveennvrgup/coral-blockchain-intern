@@ -13,8 +13,8 @@ class App extends Component {
         <h1 className="text-center my-5">Coral Blockchain | Internship Challenge</h1>
         <div className="container">
           <div className="row">
-            <div className="col-md-3"></div>
-            <div className="col-md-6 col-offset-3">
+            <div className="col-md-3 col-sm-2"></div>
+            <div className="col-md-6 col-sm-8 col-offset-3">
               <div className="links mb-4">
                 <NavLink activeClassName='btn-dark' className='btn border mr-3' exact to='/'>Add UserData</NavLink>
                 <NavLink activeClassName='btn-dark' className='btn border mr-3' to='/search/'>Search</NavLink>

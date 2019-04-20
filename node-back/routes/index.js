@@ -6,7 +6,7 @@ var Op = require('sequelize').Op
 
 
 router.get('/', (req, res) => {
-    res.render('index')
+    res.sendFile(path.join(__dirname+'/../../react-front/build/index.html'));
 })
 
 router.post('/addUser', (req, res) => {
