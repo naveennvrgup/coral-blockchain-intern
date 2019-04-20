@@ -1,6 +1,7 @@
 # Coral_Blockchain | Internship Assessment
 
 ## Implemented with both GoLang and Node.js. Frontend runs on react.js.
+*Screenshots and Instructions to running the project are at the end of the docs* 
 
 ## GoLang:
 - **Go Gorilla mux** - web router package 
@@ -55,3 +56,37 @@ I am very familiar with react.js and makes the working with **state management**
     - the need to open and close db connection for every use is quite tedious and clunky until I find a better alternative.
 
         ![](readme-imgs/dbio.png)
+
+## The final result is
+
+- Screen to add new user
+
+    ![](readme-imgs/add.png)  
+- Validation error
+
+    ![](readme-imgs/error.png)  
+- Succesfull creation of user
+
+    ![](readme-imgs/created.png)  
+- Successful updation of user
+
+    ![](readme-imgs/updation.png)  
+- Screen search for existing users with substring of email
+
+    ![](readme-imgs/result.png)  
+    ![](readme-imgs/results.png)  
+
+## Running node js
+
+- `cd node-back` 
+- `npm install`
+- `npm start`
+- go to localhost:3000 to see the site
+
+## Running GoLang
+
+- `cd golang-back` 
+- `go get -v github.com/gorilla/mux github.com/jinzhu/gorm github.com/jinzhu/gorm/dialects/mysql`
+- `go run main.go`
+- go to localhost:3000 to see the site
+- since GORM convert the column name to snake_case from camelCase it thought is is better to use a separate table for myself **naveenuserData**
