@@ -13,31 +13,88 @@
 <body>
     <div class="container">
         <h3 class="text-center my-5">Tesing now</h3>
-        <form>
-            <div class="form-group">
-                <label for="">Username:</label>
-                <input class="form-control" type="text" id="username">
-            </div>
-            <div class="form-group">
-                <label for="">Password:</label>
-                <input class="form-control" type="password" id="password">
-            </div>
-            <div class="form-group">
-                <label for="">Email:</label>
-                <input class="form-control" type="email" id="email">
-            </div>
-            <div class="form-group">
-                <label for="">Phone:</label>
-                <input class="form-control" type="text" id="phone">
-            </div>
-            <div class="text-center">
-                <button class="btn btn-primary submit-user-btn">
-                    Submit
-                </button>
-            </div>
-        </form>
+        
+        <input type="text" id="search-box">
+        <button class="search-btn">search</button>
     </div>
-    <script src="./index.js"></script>
+    <script>
+        var subUserBtn = document.querySelector('.submit-user-btn')
+        var searchBtn = document.querySelector('.search-btn')
+
+        var searchBox = document.querySelector('#search-box')
+        var userName = document.querySelector('#username')
+        var password = document.querySelector('#password')
+        var emailId = document.querySelector('#email')
+        var phoneNo = document.querySelector('#phone')
+
+
+        subUserBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+            var data = {
+                userName: userName.value,
+                password: password.value,
+                emailId: emailId.value,
+                phoneNo: phoneNo.value,
+            }
+
+            fetch('/addUser/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(d => d.json())
+                .then(d => {
+                    console.log(d);
+                })
+                .catch(e => {
+                    console.error(e)
+                })
+        })
+
+        searchBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+
+            fetch('/find/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: searchBox.value
+                })
+            })
+                .then(d => d.json())
+                .then(d => {
+                    console.log(d);
+                })
+                .catch(e => {
+                    console.error(e)
+                })
+        })
+
+        searchBtn.addEventListener('click', (e) => {
+            e.preventDefault()
+
+            fetch('/find/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: searchBox.value
+                })
+            })
+                .then(d => d.json())
+                .then(d => {
+                    console.log(d);
+                })
+                .catch(e => {
+                    console.error(e)
+                })
+        })
+    </script>
 </body>
 
 </html>

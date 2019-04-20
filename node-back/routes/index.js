@@ -5,25 +5,41 @@ var userData = require('../tables/userData')
 var Op = require('sequelize').Op
 
 
-router.get('/', (req,res)=>{
+router.get('/', (req, res) => {
     res.render('index')
 })
 
-router.post('/addUser', (req,res)=>{
+router.post('/addUser', (req, res) => {
     console.log(req.body);
-
-    res.send()
+    userData.create(req.body).then((obj) => {
+        res.send(obj)
+    }).catch(e => console.error(e))
 })
 
-router.post('/find', (req,res)=>{
+router.post('/find', (req, res) => {
     data = req.body
+
     userData.findAll({
         where: {
-            email: {
-                [Op.like] : data.email
+            emailId: {
+                [Op.substring]: data.email
             }
         }
     })
+        .then(obj => {
+            res.send(obj)
+        }).catch(e => console.error(e))
+
+})
+
+router.delete('/delete', (req,res)=>{
+    userData.Destroy({
+        where: {
+            emailId: req.body.email
+        }
+    }).then(obj=>{
+        res.send(obj)
+    }).catch(err=>console.error(err))
 })
 
 module.exports = router
