@@ -14,7 +14,7 @@
 - **mysql-client** - used to interface with ORM
 - **ejs** - render the html page
 
-### Features implemented:
+## Features implemented:
 - implemented with REST apis
 - Web form will take (username, password, email, phone). Creates userdata if not exist else updates the record.
 - form validation
@@ -24,4 +24,34 @@
 - bootstrap for
 
 ## Choice of Frontend
-I am very familiar with react.js and makes the working with state management easier. Since I am dealing with forms it felt like a good choice.
+I am very familiar with react.js and makes the working with **state management** easier. Since I am dealing with forms it felt like a good choice.
+
+## Nodejs experience:
+- I am familiar with express before so I have a idea of how everything works with node.js ecosystem.
+- The one thing that is different this time is that is have never worked with SQL DBs with node.js before it is always in **MERN** stack. Important to mention my experience with MYSQL, POSTGRESQL and SQLITE3 with **django**.
+- So this time I was made to use **sequelize** instead of familiar **mongoose**.
+- It found the offical docs to spot on and didn't require much research on it. 
+- Only small setback here was the everything worked great when MYSQL was running locally but when I switched to online DB it was not working. Which after 1/2hr of debugging found that the problem is with the collage wifi which block necessary protocols. Then I switched to my hotspot and everything is  fine again.
+
+## GoLang experience:
+- I have worked on c, c++, java, python, php, typescript etc., but never used Go till date so it was a new learning experience for me.
+- I started with learning the basics of GoLang with [Derek Banas youtube channel](https://www.youtube.com/watch?v=CF9S4QZuV30).
+- I found Go has wierd mix staticly typed and dynamically typed functionality.
+- I was glad to see some of my favourite features from python like comprehension and abilty to import data from other file without exporting it first.
+- Then dived on to choosing tools like frameworks and ORMs which will make my life easier.
+- I decided to go with Go Gorilla mux and GORM 
+- I offical docs were not very helpful to begin with so I settle with tutorial if found online on [tutorialedge.net](https://tutorialedge.net/golang/golang-orm-tutorial/) 
+- I found that the need to find the github link for packages to be primitive compared to the pip and npm way of doing things.
+- The found some things to be wierd in GoLang like:
+    - need for type referencing instead of type casting
+
+        ![](readme-imgs/type.png)
+    - GORM automatically converted the type definition from camelcase to snake case
+
+        ![](readme-imgs/sqlclient.png)
+    - the **data members starting with lowercase are private**. This is where I got stuck for a more than an hour. For some reason without any error the database is not getting populated because GORM didn't had access to the private members of the struct. This really caught me off gaurd. It was a valuable experience. 
+
+        ![](readme-imgs/struct.png)
+    - the need to open and close db connection for every use is quite tedious and clunky until I find a better alternative.
+
+        ![](readme-imgs/dbio.png)
