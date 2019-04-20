@@ -16,11 +16,11 @@ router.post('/addUser', (req, res) => {
         }
     }).then(noUpdated => {
         if (noUpdated > 0) {
-            res.send({ msg: `updated the user ${req.body.email}` })
+            res.send({ msg: `updated the user ${req.body.emailId}` })
             return
         }
         userData.create(req.body).then((obj) => {
-            res.send({ msg: `created the user ${req.body.email}` })
+            res.send({ msg: `created the user ${req.body.emailId}` })
         })
     }).catch(e => console.error(e))
 

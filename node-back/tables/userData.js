@@ -23,6 +23,8 @@ var userData = sequelize.define('userData', {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
     },
+},{
+    timestamps: false
 });
  
 userData.sync().then(() => {
