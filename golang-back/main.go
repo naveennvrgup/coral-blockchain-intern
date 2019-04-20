@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
@@ -12,91 +13,109 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-type User struct {
+type userData struct {
 	gorm.Model
-	Name  string
-	Email string
+	UserName string `json:"username" gorm:"varchar(25);not null"`
+	EmailId string	`json:"emailId" gorm:"varchar(50);not null"`
+	PhoneNo string `json:"phoneNo" gorm:"varchar(10);not null"`
+	Password string `json:"password" gorm:"varchar(50);not null"`
+	Datetime time.Time `json:"datetime"`
+}
+
+func (userData) TableName() string {
+	return "userData"
 }
 
 var uri string= "newuser:password@/test?charset=utf8&parseTime=True&loc=Local"
 
-func allUsers(w http.ResponseWriter, r *http.Request) {
+func findUser(w http.ResponseWriter, r *http.Request) {
 	db, err := gorm.Open("mysql", uri)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	defer db.Close()
 
-	var users []User
-	db.Find(&users)
-	fmt.Println("{}", users)
+	// accept json data
+    var body map[string]interface{}
+	err = json.NewDecoder(r.Body).Decode(&body)
+    if err != nil {
+        panic(err)
+	}
+
+	var users []userData
+	db.Where("email_id LIKE ?","%"+body["email"].(string)+"%").Find(&users)
 
 	json.NewEncoder(w).Encode(users)
 }
 
-func newUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("New User Endpoint Hit")
+// func newUser(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Println("New User Endpoint Hit")
 
-	db, err := gorm.Open("mysql", uri)
-	if err != nil {
-		panic("failed to connect database")
-	}
-	defer db.Close()
+// 	db, err := gorm.Open("mysql", uri)
+// 	if err != nil {
+// 		panic("failed to connect database")
+// 	}
+// 	defer db.Close()
 
-	vars := mux.Vars(r)
-	name := vars["name"]
-	email := vars["email"]
+// 	vars := mux.Vars(r)
+// 	name := vars["name"]
+// 	email := vars["email"]
 
-	fmt.Println(name)
-	fmt.Println(email)
+// 	fmt.Println(name)
+// 	fmt.Println(email)
 
-	db.Create(&User{Name: name, Email: email})
-	fmt.Fprintf(w, "New User Successfully Created")
-}
+// 	db.Create(&User{Name: name, Email: email})
+// 	fmt.Fprintf(w, "New User Successfully Created")
+// }
 
-func deleteUser(w http.ResponseWriter, r *http.Request) {
-	db, err := gorm.Open("mysql", uri)
-	if err != nil {
-		panic("failed to connect database")
-	}
-	defer db.Close()
+// func deleteUser(w http.ResponseWriter, r *http.Request) {
+// 	db, err := gorm.Open("mysql", uri)
+// 	if err != nil {
+// 		panic("failed to connect database")
+// 	}
+// 	defer db.Close()
 
-	vars := mux.Vars(r)
-	name := vars["name"]
+// 	vars := mux.Vars(r)
+// 	name := vars["name"]
 
-	var user User
-	db.Where("name = ?", name).Find(&user)
-	db.Delete(&user)
+// 	var user User
+// 	db.Where("name = ?", name).Find(&user)
+// 	db.Delete(&user)
 
-	fmt.Fprintf(w, "Successfully Deleted User")
-}
+// 	fmt.Fprintf(w, "Successfully Deleted User")
+// }
 
-func updateUser(w http.ResponseWriter, r *http.Request) {
-	db, err := gorm.Open("mysql", uri)
-	if err != nil {
-		panic("failed to connect database")
-	}
-	defer db.Close()
+// func updateUser(w http.ResponseWriter, r *http.Request) {
+// 	db, err := gorm.Open("mysql", uri)
+// 	if err != nil {
+// 		panic("failed to connect database")
+// 	}
+// 	defer db.Close()
 
-	vars := mux.Vars(r)
-	name := vars["name"]
-	email := vars["email"]
+// 	vars := mux.Vars(r)
+// 	name := vars["name"]
+// 	email := vars["email"]
 
-	var user User
-	db.Where("name = ?", name).Find(&user)
+// 	var user User
+// 	db.Where("name = ?", name).Find(&user)
 
-	user.Email = email
+// 	user.Email = email
 
-	db.Save(&user)
-	fmt.Fprintf(w, "Successfully Updated User")
-}
+// 	db.Save(&user)
+// 	fmt.Fprintf(w, "Successfully Updated User")
+// }
 
 func handleRequests() {
 	myRouter := mux.NewRouter().StrictSlash(true)
-	myRouter.HandleFunc("/users", allUsers).Methods("GET")
-	myRouter.HandleFunc("/user/{name}", deleteUser).Methods("DELETE")
-	myRouter.HandleFunc("/user/{name}/{email}", updateUser).Methods("PUT")
-	myRouter.HandleFunc("/user/{name}/{email}", newUser).Methods("POST")
+
+	// attach routes to router
+	myRouter.HandleFunc("/findUser", findUser).Methods("POST")
+	// myRouter.HandleFunc("/user/{name}", deleteUser).Methods("DELETE")
+	// myRouter.HandleFunc("/user/{name}/{email}", newUser).Methods("POST")
+	
+	// serve static files
+	myRouter.PathPrefix("/").Handler(http.FileServer(http.Dir("../react-front/build/")))
+
 	log.Fatal(http.ListenAndServe(":3000", myRouter))
 }
 
@@ -109,12 +128,12 @@ func initialMigration() {
 	defer db.Close()
 
 	// Migrate the schema
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&userData{})
 }
 
 func main() {
-	fmt.Println("Go ORM Tutorial")
-
+	log.Println("gorilla upon 3000")
+	
 	initialMigration()
 	// Handle Subsequent requests
 	handleRequests()
