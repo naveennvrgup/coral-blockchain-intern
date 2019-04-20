@@ -16,7 +16,7 @@ router.post('/addUser', (req, res) => {
     }).catch(e => console.error(e))
 })
 
-router.post('/find', (req, res) => {
+router.post('/findUser', (req, res) => {
     data = req.body
 
     userData.findAll({
@@ -32,13 +32,15 @@ router.post('/find', (req, res) => {
 
 })
 
-router.delete('/delete', (req,res)=>{
-    userData.Destroy({
+router.delete('/deleteUser/:email/', (req,res)=>{
+    // res.send('hi')
+
+    userData.destroy({
         where: {
-            emailId: req.body.email
+            emailId: req.params.email
         }
-    }).then(obj=>{
-        res.send(obj)
+    }).then(noDeleted=>{
+        res.send({noDeleted})
     }).catch(err=>console.error(err))
 })
 
