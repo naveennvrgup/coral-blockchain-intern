@@ -1,17 +1,17 @@
 const Sequelize = require('sequelize');
 
-var sequelize = new Sequelize('db_intern', 'dummyUser', 'dummyUser01', {
-  host: 'db-intern.ciupl0p5utwk.us-east-1.rds.amazonaws.com',
-  port: 3306,
-  logging: console.log,
-  dialect: 'mysql'
-});
-
-// var sequelize = new Sequelize('test', 'newuser', 'password', {
-//     host: 'localhost',
-//     port: 3306,
-//     dialect: 'mysql'
+// var sequelize = new Sequelize('db_intern', 'dummyUser', 'dummyUser01', {
+//   host: 'db-intern.ciupl0p5utwk.us-east-1.rds.amazonaws.com',
+//   port: 3306,
+//   logging: console.log,
+//   dialect: 'mysql'
 // });
+
+var sequelize = new Sequelize('test', 'newuser', 'password', {
+    host: 'localhost',
+    port: 3306,
+    dialect: 'mysql'
+});
 
 // check the db connection
 sequelize
