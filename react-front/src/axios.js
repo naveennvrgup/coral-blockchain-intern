@@ -1,12 +1,11 @@
 import axios from 'axios';
 
-burl = 'localhost:3000/'
+let burl = '/'
 
 let curr = process.env.NODE_ENV
-console.log(curr);
 
-if (curr === 'production') {
-    burl = '/'
+if (curr === 'development') {
+    burl = 'http://localhost:3000/'
 }
 
 export default () => {
