@@ -13,7 +13,7 @@
 - **bodyparser** - parses the request data and puts it in the body.
 - **cors** - enables cross-site resource sharing which is blocked by default
 - **mysql-client** - used to interface with ORM
-- **ejs** - render the html page
+- **ejs** - engine to render the html page
 
 ## Features implemented:
 - implemented with REST apis
@@ -22,7 +22,7 @@
 - search the userdata with the help of email
 - ability to delete the userdata
 - saves the data to the online databse provided 
-- bootstrap for
+- bootstrap forms
 
 ## Choice of Frontend
 I am very familiar with react.js and makes the working with **state management** easier. Since I am dealing with forms it felt like a good choice.
@@ -35,13 +35,13 @@ I am very familiar with react.js and makes the working with **state management**
 - Only small setback here was the everything worked great when MYSQL was running locally but when I switched to online DB it was not working. Which after 1/2hr of debugging found that the problem is with the collage wifi which block necessary protocols. Then I switched to my hotspot and everything is  fine again.
 
 ## GoLang experience:
-- I have worked on c, c++, java, python, php, typescript etc., but never used Go till date so it was a new learning experience for me.
+- I have worked on c, c++, java, python, php, dart etc., but never used Go till date so it was a new learning experience for me.
 - I started with learning the basics of GoLang with [Derek Banas youtube channel](https://www.youtube.com/watch?v=CF9S4QZuV30).
 - I found Go has wierd mix staticly typed and dynamically typed functionality.
 - I was glad to see some of my favourite features from python like comprehension and abilty to import data from other file without exporting it first.
 - Then dived on to choosing tools like frameworks and ORMs which will make my life easier.
 - I decided to go with Go Gorilla mux and GORM 
-- I offical docs were not very helpful to begin with so I settle with tutorial if found online on [tutorialedge.net](https://tutorialedge.net/golang/golang-orm-tutorial/) 
+- I found the offical docs were not very helpful to begin with so I settle with tutorial if found online on [tutorialedge.net](https://tutorialedge.net/golang/golang-orm-tutorial/) 
 - I found that the need to find the github link for packages to be primitive compared to the pip and npm way of doing things.
 - The found some things to be wierd in GoLang like:
     - need for type referencing instead of type casting
