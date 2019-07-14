@@ -38,7 +38,7 @@ I am very familiar with react.js and makes the working with **state management**
 - I have worked on c, c++, java, python, php, dart etc., but never used Go till date so it was a new learning experience for me.
 - I started with learning the basics of GoLang with [Derek Banas youtube channel](https://www.youtube.com/watch?v=CF9S4QZuV30).
 - I found Go has wierd mix staticly typed and dynamically typed functionality.
-- I was glad to see some of my favourite features from python like comprehension and abilty to import data from other file without exporting it first.
+- I was glad to see some of my favourite features from python like comprehension and ability to import data from other file without exporting it first.
 - Then dived on to choosing tools like frameworks and ORMs which will make my life easier.
 - I decided to go with Go Gorilla mux and GORM 
 - I found the offical docs were not very helpful to begin with so I settle with tutorial if found online on [tutorialedge.net](https://tutorialedge.net/golang/golang-orm-tutorial/) 
